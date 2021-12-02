@@ -16,7 +16,7 @@ namespace AdventOfCode2021
         public int ExecutePart1()
         {
             var increases = 0;
-            for(int i = 1; i < _values.Length; i++)
+            for (int i = 1; i < _values.Length; i++)
             {
                 if (_values[i] > _values[i - 1])
                 {
@@ -29,9 +29,9 @@ namespace AdventOfCode2021
         public int ExecutePart2()
         {
             var increases = 0;
-            for (int i = 3; i < _values.Length; i=i+1)
+            for (int i = 3; i < _values.Length; i = i + 1)
             {
-                if (Day01.SumWindow(_values, i) > Day01.SumWindow(_values, i-1))
+                if (Day01.SumWindow(_values, i) > Day01.SumWindow(_values, i - 1))
                 {
                     increases++;
                 }

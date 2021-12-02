@@ -8,15 +8,16 @@ namespace AdventOfCode2021Console
         public static void Main(string[] args)
         {
             Console.WriteLine("*** AdventOfCode2021 ***");
-
-            ExecuteDay(new Day01(), 1, "Sonar Sweep");
+            int day = 0;
+            ExecuteDay(new Day01(), ++day, "Sonar Sweep");
+            ExecuteDay(new Day02(), ++day, "Dive!");
 
         }
 
         private static void ExecuteDay<T1, T2>(IDay<T1, T2> day, int dayNumber, string title, string titleProblem1 = "Part One", string titleProblem2 = "Part Two")
         {
-            ExecuteSolution($"Day {dayNumber} - {title} - {titleProblem1}", day.ExecutePart1);
-            ExecuteSolution($"Day {dayNumber} - {title} - {titleProblem2}", day.ExecutePart2);
+            ExecuteSolution(GetTitle(dayNumber, title, titleProblem1), day.ExecutePart1);
+            ExecuteSolution(GetTitle(dayNumber, title, titleProblem2), day.ExecutePart2);
         }
 
         private static void ExecuteSolution<T>(string title, Func<T> solution)
@@ -35,7 +36,12 @@ namespace AdventOfCode2021Console
             clock.Stop();
             string separator = "|";
 
-            Console.WriteLine($"{separator}{title.PadRight(20)}{separator}{result.PadLeft(15)}{separator}{CalculateMilliseconds(clock).PadLeft(10)}{separator}");
+            Console.WriteLine($"{title.PadRight(20)}{separator}{result.PadLeft(15)}{separator}{CalculateMilliseconds(clock).PadLeft(10)}{separator}");
+        }
+
+        private static string GetTitle(int dayNumber, string title, string titleProblem)
+        {
+            return $"Day {dayNumber.ToString().PadRight(2)} {title.PadRight(15)}{titleProblem.PadRight(15)}";
         }
 
         private static string CalculateMilliseconds(Stopwatch stopwatch)
