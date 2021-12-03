@@ -11,10 +11,11 @@ namespace AdventOfCode2021Console
             int day = 0;
             ExecuteDay(new Day01(), ++day, "Sonar Sweep");
             ExecuteDay(new Day02(), ++day, "Dive!");
+            ExecuteDay(new Day03(), ++day, "Binary Diagnostic");
 
         }
 
-        private static void ExecuteDay<T1, T2>(IDay<T1, T2> day, int dayNumber, string title, string titleProblem1 = "Part One", string titleProblem2 = "Part Two")
+        private static void ExecuteDay<T1, T2>(IDay<T1, T2> day, int dayNumber, string title, string titleProblem1 = "1", string titleProblem2 = "2")
         {
             ExecuteSolution(GetTitle(dayNumber, title, titleProblem1), day.ExecutePart1);
             ExecuteSolution(GetTitle(dayNumber, title, titleProblem2), day.ExecutePart2);
@@ -41,7 +42,7 @@ namespace AdventOfCode2021Console
 
         private static string GetTitle(int dayNumber, string title, string titleProblem)
         {
-            return $"Day {dayNumber.ToString().PadRight(2)} {title.PadRight(15)}{titleProblem.PadRight(15)}";
+            return $"Day {dayNumber.ToString().PadRight(2)} {title.PadRight(20)}{titleProblem.PadRight(3)}";
         }
 
         private static string CalculateMilliseconds(Stopwatch stopwatch)
