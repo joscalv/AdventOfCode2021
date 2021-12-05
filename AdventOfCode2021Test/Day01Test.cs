@@ -2,7 +2,7 @@ using AdventOfCode2021;
 using FluentAssertions;
 using Xunit;
 
-namespace AdventOfCodeTest
+namespace AdventOfCode2021Test
 {
     public class Day01Test
     {

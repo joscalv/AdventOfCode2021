@@ -13,6 +13,7 @@ namespace AdventOfCode2021Console
             ExecuteDay(new Day02(), ++day, "Dive!");
             ExecuteDay(new Day03(), ++day, "Binary Diagnostic");
             ExecuteDay(new Day04(), ++day, "Giant Squid");
+            ExecuteDay(new Day05(), ++day, "Hydrothermal Venture");
 
         }
 
@@ -24,10 +25,7 @@ namespace AdventOfCode2021Console
 
         private static void ExecuteSolution<T>(string title, Func<T> solution)
         {
-            ExecuteSolution(title, () =>
-            {
-                return solution?.Invoke()?.ToString() ?? "";
-            });
+            ExecuteSolution(title, () => solution?.Invoke()?.ToString() ?? "");
         }
 
         private static void ExecuteSolution(string title, Func<string> solution)

@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Running;
+﻿using AdventOfCode2021Benchmarks;
+using BenchmarkDotNet.Running;
 
 namespace AdventOfCode2020Benchmarks
 {
