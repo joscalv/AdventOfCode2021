@@ -14,6 +14,7 @@ namespace AdventOfCode2021Console
             ExecuteDay(new Day03(), ++day, "Binary Diagnostic");
             ExecuteDay(new Day04(), ++day, "Giant Squid");
             ExecuteDay(new Day05(), ++day, "Hydrothermal Venture");
+            ExecuteDay(new Day06(), ++day, "Lanternfish");
 
         }
 

@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using AdventOfCode2021;
 using FluentAssertions;
+using System.Collections.Generic;
 using Xunit;
 
 namespace AdventOfCode2021Test
@@ -9,9 +8,6 @@ namespace AdventOfCode2021Test
 
     public class Day06Test
     {
-
-
-
 
         [Fact]
         public void TestPart1()
@@ -21,7 +17,7 @@ namespace AdventOfCode2021Test
             var problem1Result = day06.ExecutePart1();
             problem1Result.Should().Be(expectedSolution);
 
-        } 
+        }
         [Fact]
         public void TestPart2()
         {
@@ -40,7 +36,7 @@ namespace AdventOfCode2021Test
             Day06.CalculateArray(sample, 2).Should().BeEquivalentTo(new List<int>() { 1, 2, 1, 6, 0, 8 });
             Day06.CalculateArray(sample, 18).Should().BeEquivalentTo(new List<int>() { 6, 0, 6, 4, 5, 6, 0, 1, 1, 2, 6, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7, 8, 8, 8, 8 });
             Day06.CalculateArray(sample, 80).Count.Should().Be(5934);
-            
+
         }
 
         [Fact]
