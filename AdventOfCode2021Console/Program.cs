@@ -15,13 +15,14 @@ namespace AdventOfCode2021Console
             ExecuteDay(new Day04(), ++day, "Giant Squid");
             ExecuteDay(new Day05(), ++day, "Hydrothermal Venture");
             ExecuteDay(new Day06(), ++day, "Lanternfish");
+            ExecuteDay(new Day07(), ++day, "The Treachery of Whales");
 
         }
 
         private static void ExecuteDay<T1, T2>(IDay<T1, T2> day, int dayNumber, string title, string titleProblem1 = "1", string titleProblem2 = "2")
         {
-            ExecuteSolution(GetTitle(dayNumber, title, titleProblem1), day.ExecutePart1);
-            ExecuteSolution(GetTitle(dayNumber, title, titleProblem2), day.ExecutePart2);
+            ExecuteSolution(GetTitle(dayNumber, 1,title ), day.ExecutePart1);
+            ExecuteSolution(GetTitle(dayNumber, 2,title), day.ExecutePart2);
         }
 
         private static void ExecuteSolution<T>(string title, Func<T> solution)
@@ -40,9 +41,9 @@ namespace AdventOfCode2021Console
             Console.WriteLine($"{title.PadRight(20)}{separator}{result.PadLeft(15)}{separator}{CalculateMilliseconds(clock).PadLeft(10)}{separator}");
         }
 
-        private static string GetTitle(int dayNumber, string title, string titleProblem)
+        private static string GetTitle(int dayNumber, int problem, string title )
         {
-            return $"Day {dayNumber.ToString().PadRight(2)} {title.PadRight(20)}{titleProblem.PadRight(3)}";
+            return $"Day {dayNumber.ToString().PadLeft(2)}.{problem.ToString().PadRight(1)} {title.PadRight(25)}";
         }
 
         private static string CalculateMilliseconds(Stopwatch stopwatch)
