@@ -15,22 +15,18 @@
 
         public long ExecutePart1()
         {
-
             return GetMinFuelToAlign(_values);
         }
 
         public long ExecutePart2()
         {
-
             return GetFuelToMoveIncreasingCostV2(_values);
         }
 
         public static long GetMinFuelToAlign(int[] values)
         {
             var median = Median(values);
-            long totalFuel = 0;
             return values.Select(v => Math.Abs(v - median)).Sum();
-
         }
 
         public static int Median(int[] values)
@@ -40,7 +36,7 @@
             return valuesOrdered[middleIndex];
         }
 
-        public static long GetFuelToMoveFixedCost(int start, int end)
+        public static long GetFuelToMoveIncreasing(int start, int end)
         {
             long totalFuel = 0;
             for (int i = 1; i <= Math.Abs(start - end); i++)
@@ -49,6 +45,12 @@
             }
 
             return totalFuel;
+        }
+
+        public static long GetFuelToMoveIncreasingGauss(int start, int end)
+        {
+            var n = Math.Abs(start - end);
+            return n * (n + 1) / 2;
         }
 
         public static long GetFuelToMoveIncreasingCost(int[] values)
@@ -63,7 +65,7 @@
                 int j = 0;
                 while (currentCost < minTotalFuel && j < length)
                 {
-                    currentCost += GetFuelToMoveFixedCost(i, values[j]);
+                    currentCost += GetFuelToMoveIncreasing(i, values[j]);
                     j++;
                 }
 
@@ -80,7 +82,6 @@
         {
             var valuesOrdered = values.OrderBy(v => v).ToArray();
             long minTotalFuel = long.MaxValue;
-            long previousCost = long.MaxValue;
             int maxValue = values.Max();
             int length = values.Length;
 
@@ -91,7 +92,7 @@
                 int j = 0;
                 while (currentCost < minTotalFuel && j < length)
                 {
-                    currentCost += GetFuelToMoveFixedCost(i, valuesOrdered[j]);
+                    currentCost += GetFuelToMoveIncreasingGauss(i, valuesOrdered[j]);
                     j++;
                 }
 
@@ -100,12 +101,6 @@
                     minTotalFuel = currentCost;
                 }
 
-                if (previousCost < currentCost)
-                {
-                    return minTotalFuel;
-                }
-
-                previousCost = currentCost;
             }
 
             return minTotalFuel;

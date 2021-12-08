@@ -51,7 +51,7 @@ namespace AdventOfCode2021Test
         [InlineData(14, 5, 45)]
         public void GetFuelToMove(int start, int end, int expected)
         {
-            Day07.GetFuelToMoveFixedCost(start, end).Should().Be(expected);
+            Day07.GetFuelToMoveIncreasing(start, end).Should().Be(expected);
         }
 
         [Fact]
