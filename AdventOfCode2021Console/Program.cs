@@ -16,6 +16,7 @@ namespace AdventOfCode2021Console
             ExecuteDay(new Day05(), ++day, "Hydrothermal Venture");
             ExecuteDay(new Day06(), ++day, "Lanternfish");
             ExecuteDay(new Day07(), ++day, "The Treachery of Whales");
+            ExecuteDay(new Day08(), ++day, "Seven Segment Search");
 
         }
 
@@ -32,13 +33,13 @@ namespace AdventOfCode2021Console
 
         private static void ExecuteSolution(string title, Func<string> solution)
         {
-            Stopwatch clock = new Stopwatch();
+            Stopwatch clock = new();
             clock.Start();
             var result = solution.Invoke().ToString();
             clock.Stop();
             string separator = "|";
 
-            Console.WriteLine($"{title.PadRight(20)}{separator}{result.PadLeft(15)}{separator}{CalculateMilliseconds(clock).PadLeft(10)}{separator}");
+            Console.WriteLine($"{title?.PadRight(20)}{separator}{result.PadLeft(15)}{separator}{CalculateMilliseconds(clock).PadLeft(10)}{separator}");
         }
 
         private static string GetTitle(int dayNumber, int problem, string title )

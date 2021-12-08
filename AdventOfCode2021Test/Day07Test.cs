@@ -13,7 +13,7 @@ namespace AdventOfCode2021Test
         [Fact]
         public void TestPart1()
         {
-            Day07 day07 = new Day07();
+            Day07 day07 = new();
             var expectedSolution = 347011L;
             day07.ExecutePart1().Should().Be(expectedSolution);
 
@@ -21,7 +21,7 @@ namespace AdventOfCode2021Test
         [Fact]
         public void TestPart2()
         {
-            Day07 day07 = new Day07();
+            Day07 day07 = new();
             var expectedSolution = 98363777L;
             day07.ExecutePart2().Should().Be(expectedSolution);
 
