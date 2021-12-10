@@ -1,13 +1,13 @@
 ﻿namespace AdventOfCode2021
 {
-    public class Day0N : IDay<long, long>
+    public class Day1N : IDay<long, long>
     {
         private readonly int[] _values;
 
-        public Day0N()
+        public Day1N()
         {
             _values = File
-                .ReadAllText(Path.Combine("Inputs", "input0N.txt"))
+                .ReadAllText(Path.Combine("Inputs", "input1N.txt"))
                 .Split('\n')
                 .Select(int.Parse)
                 .ToArray();

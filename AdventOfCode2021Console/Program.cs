@@ -18,6 +18,7 @@ namespace AdventOfCode2021Console
             ExecuteDay(new Day07(), ++day, "The Treachery of Whales");
             ExecuteDay(new Day08(), ++day, "Seven Segment Search");
             ExecuteDay(new Day09(), ++day, "Smoke Basin");
+            ExecuteDay(new Day10(), ++day, "Syntax Scoring");
 
         }
 

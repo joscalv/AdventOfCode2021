@@ -45,11 +45,11 @@
 
     public class LavaField
     {
-        private readonly int[] _heights;
+        private readonly int[] _values;
         private readonly int _width;
-        public LavaField(int[] heights, int width)
+        public LavaField(int[] values, int width)
         {
-            _heights = heights;
+            _values = values;
             _width = width;
         }
 
@@ -58,9 +58,9 @@
         {
             var riskPoints = new List<(int center, int height)>();
             int lastInRow = _width - 1;
-            for (int i = 0; i < _heights.Length; i++)
+            for (int i = 0; i < _values.Length; i++)
             {
-                var currentValue = _heights[i];
+                var currentValue = _values[i];
                 if ((i % _width == 0 || currentValue < GetValue(i - 1))
                     && (i % _width == lastInRow || currentValue < GetValue(i + 1))
                     && currentValue < GetValue(i - _width)
@@ -91,11 +91,11 @@
                     var currentPoint = pointsToCheck.Dequeue();
                     foreach (var adjacent in GetAdjacents(currentPoint))
                     {
-                        if (!isInBasin.Contains(adjacent) && _heights[adjacent] != 9)
+                        if (!isInBasin.Contains(adjacent) && _values[adjacent] != 9)
                         {
                             isInBasin.Add(adjacent);
                             pointsToCheck.Enqueue(adjacent);
-                            basinsByCenter[basin].Add(_heights[adjacent]);
+                            basinsByCenter[basin].Add(_values[adjacent]);
                         }
                     }
                 }
@@ -111,7 +111,7 @@
 
         private int GetValue(int index)
         {
-            return index >= 0 && index < _heights.Length ? _heights[index] : int.MaxValue;
+            return index >= 0 && index < _values.Length ? _values[index] : int.MaxValue;
         }
 
         private IEnumerable<int> GetAdjacents(int i)
@@ -134,7 +134,7 @@
                 yield return i - _width;
             }
 
-            if (i + _width < _heights.Length)
+            if (i + _width < _values.Length)
             {
                 yield return i + _width;
             }

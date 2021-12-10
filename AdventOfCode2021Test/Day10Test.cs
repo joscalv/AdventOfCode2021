@@ -7,22 +7,22 @@ using Xunit;
 namespace AdventOfCode2021Test
 {
 
-    public class Day0NTest
+    public class Day10Test
     {
 
         [Fact]
         public void TestPart1()
         {
-            Day0N day = new();
-            var expectedSolution = 0;
+            Day10 day = new();
+            var expectedSolution = 168417;
             day.ExecutePart1().Should().Be(expectedSolution);
 
         }
         [Fact]
         public void TestPart2()
         {
-            Day0N day = new();
-            var expectedSolution = 0;
+            Day10 day = new();
+            var expectedSolution = 2802519786;
             day.ExecutePart2().Should().Be(expectedSolution);
 
         }
