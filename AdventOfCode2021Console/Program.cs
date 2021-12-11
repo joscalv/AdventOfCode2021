@@ -19,7 +19,7 @@ namespace AdventOfCode2021Console
             ExecuteDay(new Day08(), ++day, "Seven Segment Search");
             ExecuteDay(new Day09(), ++day, "Smoke Basin");
             ExecuteDay(new Day10(), ++day, "Syntax Scoring");
-
+            ExecuteDay(new Day11(), ++day, "Dumbo Octopus");
         }
 
         private static void ExecuteDay<T1, T2>(IDay<T1, T2> day, int dayNumber, string title, string titleProblem1 = "1", string titleProblem2 = "2")
