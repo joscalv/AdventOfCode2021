@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace AdventOfCode2021
 {
@@ -17,6 +18,18 @@ namespace AdventOfCode2021
         {
             var paths = Day12Extensions.GetPathsDay12(_input);
             return CalcNumberOfPaths(paths);
+        }
+
+        public long ExecutePart2()
+        {
+            var paths = _input.GetPathsDay12();
+            return CalcNumberOfPathsVisitingOneSmallTwiceV2(paths);
+        }
+
+        public long ExecutePart2V2()
+        {
+            var paths = _input.GetPathsDay12();
+            return CalcNumberOfPathsVisitingOneSmallTwiceV2(paths);
         }
 
         public static long CalcNumberOfPaths(Dictionary<string, List<string>> paths)
@@ -51,7 +64,7 @@ namespace AdventOfCode2021
         public static long CalcNumberOfPathsVisitingOneSmallTwice(Dictionary<string, List<string>> paths)
         {
             var possiblePaths = new Stack<List<(string, bool)>>();
-            possiblePaths.Push(new List<(string, bool)>() { ("start",true)  });
+            possiblePaths.Push(new List<(string, bool)>() { ("start", true) });
             var numberOfPaths = 0;
 
             var paths2 = paths.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Select(dest => (dest, dest.All(char.IsLower))).ToList());
@@ -80,16 +93,73 @@ namespace AdventOfCode2021
             return numberOfPaths;
         }
 
-        private static bool CanBeVisited(List<(string, bool)> currentPath, (string, bool) next)
+
+        private record Cave(string Name, bool IsSmall);
+        private record CavePath(Cave[] Points, bool HasTwoEqSmall);
+
+        public static long CalcNumberOfPathsVisitingOneSmallTwiceV2(Dictionary<string, List<string>> paths)
         {
-            return !currentPath.Contains(next) || currentPath.Where(v => v.Item2).GroupBy(c => c).Any(g => g.Count() > 1)==false;
+            var possiblePaths = new Stack<CavePath>();
+            possiblePaths.Push(new CavePath(new Cave[] { new Cave("start", false) }, false));
+
+
+            var numberOfPaths = 0;
+
+            var paths2 = paths.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Select(dest => new Cave(dest, dest.All(char.IsLower))).ToList());
+
+
+            while (possiblePaths.Any())
+            {
+                var currentPath = possiblePaths.Pop();
+
+                if (paths2.TryGetValue(currentPath.Points.Last().Name, out var next))
+                {
+                    for (int i = 0; i < next.Count; i++)
+                    {
+                        var nextDestination = next[i];
+
+                        var newEqSmallCount = currentPath.HasTwoEqSmall;
+                        if (nextDestination.Name == "end")
+                        {
+                            numberOfPaths++;
+                        }
+                        else if (!nextDestination.IsSmall || CanBeVisitedV2(currentPath, nextDestination, out newEqSmallCount))
+                        {
+                            var length = currentPath.Points.Length;
+                            var newPoints = new Cave[length + 1];
+                            currentPath.Points.CopyTo(newPoints, 0);
+                            newPoints[length] = nextDestination;
+                            possiblePaths.Push(new CavePath(newPoints, newEqSmallCount));
+                        }
+                    }
+                }
+            }
+
+            return numberOfPaths;
         }
 
-        public long ExecutePart2()
+        private static bool CanBeVisitedV2(CavePath currentPath, Cave next, out bool newSmallCount)
         {
-            var paths = _input.GetPathsDay12();
-            return CalcNumberOfPathsVisitingOneSmallTwice(paths);
+            newSmallCount = currentPath.HasTwoEqSmall;
+            if (!currentPath.Points.Contains(next))
+            {
+                return true;
+            }
+            else if (!currentPath.HasTwoEqSmall)
+            {
+                newSmallCount = true;
+                return true;
+            }
+
+            return false;
         }
+
+        private static bool CanBeVisited(List<(string, bool)> currentPath, (string, bool) next)
+        {
+            return !currentPath.Contains(next) || currentPath.Where(v => v.Item2).GroupBy(c => c).Any(g => g.Count() > 1) == false;
+        }
+
+
     }
 
     public static class Day12Extensions

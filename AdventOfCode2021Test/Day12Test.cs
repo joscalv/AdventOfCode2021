@@ -70,8 +70,16 @@ start-RW".ReplaceLineEndings().Split(Environment.NewLine, StringSplitOptions.Rem
         {
             Day12 day = new();
             var expectedSolution = 92111;
-            day.ExecutePart2().Should().Be(expectedSolution);
+            day.ExecutePart2V2().Should().Be(expectedSolution);
         }
+        
+        //[Fact]
+        //public void TestPart2V2()
+        //{
+        //    Day12 day = new();
+        //    var expectedSolution = 92111;
+        //    day.ExecutePart2V2().Should().Be(expectedSolution);
+        //}
 
         [Fact]
         public void TestPart1Sample1()
