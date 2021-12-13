@@ -1,7 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
-using System.Text.Json.Serialization;
-
-namespace AdventOfCode2021
+﻿namespace AdventOfCode2021
 {
     public class Day13 : IDay<long, long>
     {
@@ -9,7 +6,7 @@ namespace AdventOfCode2021
         public record FoldInstruction(char Direction, int Value);
 
         private readonly FoldCoordinate[] _coordinates;
-        private FoldInstruction[] _instructions;
+        private readonly FoldInstruction[] _instructions;
 
         public Day13()
         {
@@ -50,21 +47,12 @@ namespace AdventOfCode2021
 
             if (print)
             {
-
                 for (int y = 0; y <= maxY; y++)
                 {
                     for (int x = 0; x <= maxX; x++)
                     {
-                        if (coordinatesOrdered.Contains(new FoldCoordinate(x, y)))
-                        {
-                            Console.Write('#');
-                        }
-                        else
-                        {
-                            Console.Write('.');
-                        }
+                        Console.WriteLine(coordinatesOrdered.Contains(new FoldCoordinate(x, y)) ? '#' : '.');
                     }
-
                     Console.WriteLine();
                 }
             }
@@ -102,14 +90,13 @@ namespace AdventOfCode2021
             public static (FoldCoordinate[] coordinates, FoldInstruction[] instructions) ParseInput(string[] lines)
             {
                 var coordinates = lines
-
                     .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("fold along "))
                     .Select(line => line.Split(','))
                     .Select(pair => new FoldCoordinate(int.Parse(pair[0]), int.Parse(pair[1])))
                     .ToArray();
 
                 var instructions = lines
-                    .Where(line => !string.IsNullOrWhiteSpace(line) && line.StartsWith("fold along "))
+                    .Where(line => line.StartsWith("fold along "))
                     .Select(line => new FoldInstruction(line[line.IndexOf('=') - 1], int.Parse(line.Substring(line.IndexOf('=') + 1))))
                     .ToArray();
 

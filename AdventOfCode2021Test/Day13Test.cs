@@ -1,8 +1,6 @@
-using System;
 using AdventOfCode2021;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using Xunit;
 
 namespace AdventOfCode2021Test
