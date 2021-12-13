@@ -53,7 +53,7 @@ namespace AdventOfCode2021Test
 fold along y=7
 fold along x=5".ReplaceLineEndings().Split(Environment.NewLine);
 
-            var sampleValues = Day13Extensions.ParseInput(sampleInput);
+            var sampleValues = Day13.Day13Extensions.ParseInput(sampleInput);
             var expectedSolution = 16;
             Day13.Fold(sampleValues.coordinates, sampleValues.instructions).Length.Should().Be(expectedSolution);
 

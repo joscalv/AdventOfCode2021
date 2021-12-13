@@ -5,8 +5,11 @@ namespace AdventOfCode2021
 {
     public class Day13 : IDay<long, long>
     {
-        private readonly (int x, int y)[] _coordinates;
-        private (char direction, int value)[] _instructions;
+        public record FoldCoordinate(int X, int Y);
+        public record FoldInstruction(char Direction, int Value);
+
+        private readonly FoldCoordinate[] _coordinates;
+        private FoldInstruction[] _instructions;
 
         public Day13()
         {
@@ -38,11 +41,11 @@ namespace AdventOfCode2021
             return ExecutePart2(_coordinates, _instructions, true);
         }
 
-        public static long ExecutePart2((int x, int y)[] coordinates, (char direction, int value)[] instructions, bool print = false)
+        public static long ExecutePart2(FoldCoordinate[] coordinates, FoldInstruction[] instructions, bool print = false)
         {
             var resultCoordinates = Fold(coordinates, instructions);
-            var maxX = resultCoordinates.Select(c => c.x).Max();
-            var maxY = resultCoordinates.Select(c => c.y).Max();
+            var maxX = resultCoordinates.Select(c => c.X).Max();
+            var maxY = resultCoordinates.Select(c => c.Y).Max();
             var coordinatesOrdered = resultCoordinates.ToHashSet();
 
             if (print)
@@ -52,7 +55,7 @@ namespace AdventOfCode2021
                 {
                     for (int x = 0; x <= maxX; x++)
                     {
-                        if (coordinatesOrdered.Contains((x, y)))
+                        if (coordinatesOrdered.Contains(new FoldCoordinate(x, y)))
                         {
                             Console.Write('#');
                         }
@@ -69,7 +72,7 @@ namespace AdventOfCode2021
             return resultCoordinates.Length;
         }
 
-        public static (int x, int y)[] Fold((int x, int y)[] coordinates, (char direction, int value)[] instructions)
+        public static FoldCoordinate[] Fold(FoldCoordinate[] coordinates, FoldInstruction[] instructions)
         {
             var currentCoordinateS = coordinates;
             foreach (var instruction in instructions)
@@ -80,49 +83,42 @@ namespace AdventOfCode2021
             return currentCoordinateS;
         }
 
-        public static (int x, int y)[] Fold((int x, int y)[] coordinates, (char direction, int value) instruction)
+        public static FoldCoordinate[] Fold(FoldCoordinate[] coordinates, FoldInstruction instruction)
         {
             return coordinates
-                .Select(coordinate =>
+                .Select(coordinate => coordinate with
                 {
-                    if (instruction.direction == 'y' )
-                    {
-                        return coordinate.y > instruction.value
-                            ? (coordinate.x, instruction.value - (coordinate.y - instruction.value))
-                            : coordinate;
-                    }
-                    else 
-                    {
-                        return coordinate.x > instruction.value
-                            ? (instruction.value - (coordinate.x - instruction.value), coordinate.y)
-                            : coordinate;
-                    }
-
+                    Y = instruction.Direction == 'y' && coordinate.Y > instruction.Value
+                        ? 2 * instruction.Value - coordinate.Y
+                        : coordinate.Y,
+                    X = instruction.Direction == 'x' && coordinate.X > instruction.Value
+                        ? 2 * instruction.Value - coordinate.X
+                        : coordinate.X,
                 }).Distinct().ToArray();
         }
 
-        
-
-    }
-
-
-    public static class Day13Extensions
-    {
-        public static ((int x, int y)[] coordinates, (char direction, int value)[] instructions) ParseInput(string[] lines)
+        public static class Day13Extensions
         {
-            var coordinates = lines
+            public static (FoldCoordinate[] coordinates, FoldInstruction[] instructions) ParseInput(string[] lines)
+            {
+                var coordinates = lines
 
-                .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("fold along "))
-                .Select(line => line.Split(','))
-                .Select(pair => (int.Parse(pair[0]), int.Parse(pair[1])))
-                .ToArray();
+                    .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("fold along "))
+                    .Select(line => line.Split(','))
+                    .Select(pair => new FoldCoordinate(int.Parse(pair[0]), int.Parse(pair[1])))
+                    .ToArray();
 
-            var instructions = lines
-                .Where(line => !string.IsNullOrWhiteSpace(line) && line.StartsWith("fold along "))
-                .Select(line => (line[line.IndexOf('=') - 1], int.Parse(line.Substring(line.IndexOf('=') + 1))))
-                .ToArray();
+                var instructions = lines
+                    .Where(line => !string.IsNullOrWhiteSpace(line) && line.StartsWith("fold along "))
+                    .Select(line => new FoldInstruction(line[line.IndexOf('=') - 1], int.Parse(line.Substring(line.IndexOf('=') + 1))))
+                    .ToArray();
 
-            return (coordinates, instructions);
+                return (coordinates, instructions);
+            }
         }
+
     }
+
+
+
 }
