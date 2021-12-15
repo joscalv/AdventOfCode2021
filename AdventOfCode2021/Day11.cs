@@ -65,7 +65,7 @@
 
         private static void IncreaseAdjacentEnergy(int[][] energyLevels, int x, int y)
         {
-            energyLevels.ForEachAdjacent(x, y,
+            energyLevels.ForEachAdjacentWithDiagonal(x, y,
                 (int value, int innerX, int innerY) =>
                 {
                     energyLevels[innerY][innerX] += 1;
@@ -90,27 +90,6 @@
                 .ToArray();
         }
 
-        public static void ForEachAdjacent(this int[][] matrix, int x, int y, Action<int, int, int> action)
-        {
-            for (int incY = -1; incY <= 1; incY++)
-            {
-                for (int incX = -1; incX <= 1; incX++)
-                {
-                    if ((incX != 0 || incY != 0) && InBounds(matrix, x + incX, y + incY))
-                    {
-                        action.Invoke(matrix[y + incY][x + incX], x + incX, y + incY);
-                    }
-                }
-            }
-
-        }
-
-        private static bool InBounds(int[][] matrix, int x, int y)
-        {
-            return y >= 0
-                   && x >= 0
-                   && y <= matrix.Length - 1
-                   && x <= matrix[y].Length - 1;
-        }
+      
     }
 }

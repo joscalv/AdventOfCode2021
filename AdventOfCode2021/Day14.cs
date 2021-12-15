@@ -23,6 +23,11 @@
         {
             return ApplyRulesOptimized(_rules, _template, 40);
         }
+        
+        public ulong ExecutePart2v2()
+        {
+            return ApplyRulesOptimizedv2(_rules, _template, 40);
+        }
 
         public static long ApplyRules(Dictionary<RuleKey, char> rules, char[] template, int loops = 10)
         {
@@ -58,12 +63,14 @@
             return result.Max() - result.Where(i => i != 0).Min();
         }
 
-        public static ulong[] ExpandSingleRulesNTimes(Dictionary<MemoKey, ulong[]> memoization, Dictionary<RuleKey, char> rules, RuleKey key, int iteration)
+        public static ulong[] ExpandSingleRulesNTimes(Dictionary<MemoKey, ulong[]> memoization,
+            Dictionary<RuleKey, char> rules, RuleKey key, int iteration)
         {
             if (memoization.TryGetValue(new MemoKey(key.Item0, key.Item1, iteration), out var values))
             {
                 return values;
             }
+
             if (iteration > 1 && rules.TryGetValue(key, out var replacement))
             {
                 var rule1 = key with { Item1 = replacement };
@@ -78,6 +85,7 @@
                 memoization.Add(new MemoKey(key.Item0, key.Item1, iteration), result);
                 return result;
             }
+
             if (rules.TryGetValue(key, out replacement))
             {
                 var result2 = new ulong[25];
@@ -95,6 +103,7 @@
         }
 
         private static int GetIndex(char c) => c - 'A';
+
         private static ulong[] SumArrays(ulong[] a, ulong[] b)
         {
             var result = new ulong[25];
@@ -121,6 +130,43 @@
 
             result.Add(template.Last());
             return result.ToArray();
+        }
+
+        public static ulong ApplyRulesOptimizedv2(Dictionary<RuleKey, char> rules, char[] template, int loops = 10)
+        {
+            var characters = template.GroupBy(c => c).ToDictionary(g => g.Key, g => (ulong)g.Count());
+            var pairs = new Dictionary<(char, char), ulong>();
+            for (int i = 0; i < template.Length-1; i++)
+            {
+                pairs.TryAdd((template[i], template[i + 1]), 0);
+                pairs[(template[i], template[i + 1])] += 1;
+            }
+
+            for (var i = 0; i < loops; i++)
+            {
+                var newPairs = new Dictionary<(char, char), ulong>();
+                foreach (var pair in pairs)
+                {
+                    if (rules.TryGetValue(new RuleKey(pair.Key.Item1, pair.Key.Item2), out var newC))
+                    {
+                        characters.TryAdd(newC, 0);
+                        characters[newC] += pair.Value;
+                        newPairs.TryAdd((pair.Key.Item1, newC), 0);
+                        newPairs.TryAdd((newC, pair.Key.Item2), 0);
+                        newPairs[(pair.Key.Item1, newC)] += pair.Value;
+                        newPairs[(newC, pair.Key.Item2)] += pair.Value;
+                    }
+                    else
+                    {
+                        newPairs.Add((pair.Key.Item1, pair.Key.Item2), pair.Value);
+                    }
+
+                }
+
+                pairs = newPairs;
+            }
+
+            return characters.Values.Max() - characters.Values.Min();
         }
     }
 

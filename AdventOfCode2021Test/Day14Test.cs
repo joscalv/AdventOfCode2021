@@ -89,12 +89,48 @@ CN -> C";
                 .Should().Be(expectedSolution);
 
         }
+        
+        [Fact]
+        public void TestPart2Sample1v2()
+        {
+            var sampleInput = Day14Extensions.Parse(_sample1Str);
+
+            Day14.ApplyRulesOptimizedv2(sampleInput.rules, sampleInput.template, 1)
+                .Should()
+                .Be(GetDifference("NCNBCHB"));
+
+            //Day14.ApplyRulesOptimized(sampleInput.rules, sampleInput.template, 2)
+            //.Should()
+            //.Be(GetDifference("NBCCNBBBCBHCB"));
+
+            //Day14.ApplyRulesOptimized(sampleInput.rules, sampleInput.template, 3)
+            //    .Should()
+            //    .Be(GetDifference("NBBBCNCCNBBNBNBBCHBHHBCHB"));
+
+            //Day14.ApplyRulesOptimized(sampleInput.rules, sampleInput.template, 4)
+            //    .Should()
+            //    .Be(GetDifference("NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB"));
+
+            //var expectedSolution = 2188189693529UL;
+            //Day14.ApplyRulesOptimized(sampleInput.rules, sampleInput.template, 40)
+                //.Should().Be(expectedSolution);
+
+        }
         [Fact]
         public void TestPart2()
         {
             Day14 day = new();
             ulong expectedSolution = 2265039461737;
             day.ExecutePart2().Should().Be(expectedSolution);
+
+        }
+        
+        [Fact]
+        public void TestPart2v2()
+        {
+            Day14 day = new();
+            ulong expectedSolution = 2265039461737;
+            day.ExecutePart2v2().Should().Be(expectedSolution);
 
         }
 
