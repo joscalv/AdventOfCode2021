@@ -24,6 +24,7 @@ namespace AdventOfCode2021Console
             ExecuteDay(new Day13(), ++day, "Transparent Origami");
             ExecuteDay(new Day14(), ++day, "Extended Polymerization");
             ExecuteDay(new Day15(), ++day, "Chiton");
+            ExecuteDay(new Day16(), ++day, "Packet Decoder");
         }
 
         private static void ExecuteDay<T1, T2>(IDay<T1, T2> day, int dayNumber, string title, string titleProblem1 = "1", string titleProblem2 = "2")
