@@ -1,6 +1,4 @@
 ﻿using System.Text;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace AdventOfCode2021
 {
@@ -8,6 +6,9 @@ namespace AdventOfCode2021
     {
         private readonly string[] _values;
 
+        private const int OpenValue = -1;
+        private const int CloseValue = -2;
+        private const int CommaValue = -3;
 
         public Day18()
         {
@@ -16,8 +17,6 @@ namespace AdventOfCode2021
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries)
                 .ToArray();
         }
-
-
 
 
         public long ExecutePart1()
@@ -70,86 +69,96 @@ namespace AdventOfCode2021
             return result;
         }
 
-        public static List<int> Reduce(List<int> str)
+        public static List<int> Reduce(List<int> number)
         {
-            var currentStr = str;
+            var current = number;
             bool isChanged;
             do
             {
-                var result = ReduceStep(currentStr);
+                var result = ReduceStep(current);
                 isChanged = result.isChange;
-                currentStr = result.value;
+                current = result.value;
             } while (isChanged);
 
-            return currentStr;
+            return current;
         }
 
-        public static (List<int> value, bool isChange) ReduceStep(List<int> ints)
+        public static (List<int> value, bool isChange) ReduceStep(List<int> number)
         {
 
-            var result = new List<int>();
-            int NumberOfOpens = 0;
-            int sumToNext = 0;
-            bool isChanged;
+            var result = Explode(number, out var isChanged);
 
-            isChanged = false;
-            for (int i = 0; i < ints.Count; i++)
+            if (!isChanged)
             {
-                if (ints[i] == OpenValue)
+                result = Split(number, out isChanged);
+            }
+
+            return (result, isChanged);
+        }
+
+        private static List<int> Split(List<int> number, out bool isChanged)
+        {
+            isChanged = false;
+            var result = new List<int>();
+            for (int i = 0; i < number.Count; i++)
+            {
+                if (!isChanged && number[i] >= 10)
                 {
-                    NumberOfOpens++;
+                    result.Add(OpenValue);
+                    result.Add((int)number[i] / 2);
+                    result.Add(CommaValue);
+                    result.Add((int)Math.Ceiling(number[i] / 2.0));
+                    result.Add(CloseValue);
+                    isChanged = true;
+                }
+                else
+                {
+                    result.Add(number[i]);
+                }
+            }
+
+            return result;
+        }
+
+        private static List<int> Explode(List<int> number, out bool isChanged)
+        {
+            var result = new List<int>();
+            int numberOfOpens = 0;
+            int sumToNext = 0;
+            isChanged = false;
+
+            for (int i = 0; i < number.Count; i++)
+            {
+                if (number[i] == OpenValue)
+                {
+                    numberOfOpens++;
                 }
 
-                if (ints[i] == CloseValue)
+                if (number[i] == CloseValue)
                 {
-                    NumberOfOpens--;
+                    numberOfOpens--;
                 }
 
-                if (!isChanged && NumberOfOpens > 4 && isPair(ints, i))
+                if (!isChanged && numberOfOpens > 4 && IsPair(number, i))
                 {
-                    //explode
-                    SumToPreviousNumber(result, ints[i + 1]);
-                    sumToNext = ints[i + 3];
+                    SumToPreviousNumber(result, number[i + 1]);
+                    sumToNext = number[i + 3];
                     isChanged = true;
                     result.Add(0);
                     i += 4;
                 }
-                else if (sumToNext > 0 && ints[i] >= 0)
+                else if (sumToNext > 0 && number[i] >= 0)
                 {
-                    result.Add(ints[i] + sumToNext);
+                    result.Add(number[i] + sumToNext);
                     sumToNext = 0;
                 }
                 else
                 {
-                    result.Add(ints[i]);
+                    result.Add(number[i]);
                 }
             }
 
-            if (!isChanged)
-            {
-                result = new List<int>();
-                for (int i = 0; i < ints.Count; i++)
-                {
-                    if (!isChanged && ints[i] >= 10)
-                    {
-                        //split
-                        result.Add(OpenValue);
-                        result.Add((int)ints[i] / 2);
-                        result.Add(CommaValue);
-                        result.Add((int)Math.Ceiling(ints[i] / 2.0));
-                        result.Add(CloseValue);
-                        isChanged = true;
-                    }
-                    else
-                    {
-                        result.Add(ints[i]);
-                    }
-                }
-            }
-
-
-
-            return (result, isChanged);
+            return result;
         }
 
         private static void SumToPreviousNumber(List<int> result, int i)
@@ -168,17 +177,7 @@ namespace AdventOfCode2021
             }
         }
 
-        private static bool isPair(List<int> number, int index)
-        {
-            return index <= number.Count - 5
-                   && number[index] == OpenValue
-                   && number[index + 1] >= 0 /*&& number[index + 1] < 10*/
-                   && number[index + 2] == CommaValue
-                   && number[index + 3] >= 0 /*&& number[index + 3] < 10*/
-                   && number[index + 4] == CloseValue;
-        }
-
-        private static bool isPairNoLimit(List<int> number, int index)
+        private static bool IsPair(List<int> number, int index)
         {
             return index <= number.Count - 5
                    && number[index] == OpenValue
@@ -187,11 +186,6 @@ namespace AdventOfCode2021
                    && number[index + 3] >= 0
                    && number[index + 4] == CloseValue;
         }
-
-        private const int OpenValue = -1;
-        private const int CloseValue = -2;
-        private const int CommaValue = -3;
-
 
         public static long GetMagnitude(List<int> values)
         {
@@ -203,10 +197,10 @@ namespace AdventOfCode2021
                 var result = new List<int>();
                 for (int i = 0; i < current.Count; i++)
                 {
-                    if (isPairNoLimit(current, i))
+                    if (IsPair(current, i))
                     {
                         result.Add(3 * current[i + 1] + 2 * current[i + 3]);
-                        i = i + 4;
+                        i += 4;
                         changed = true;
                     }
                     else
@@ -246,15 +240,12 @@ namespace AdventOfCode2021
                 else
                 {
                     result.Add(v.value);
-                    //index++;
                 }
                 previousNumber = v.isNumber;
             }
 
             return result;
         }
-
-
 
         private static (int value, bool isNumber) ToInteger(char c) => c switch
         {
