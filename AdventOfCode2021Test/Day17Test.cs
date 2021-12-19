@@ -39,14 +39,14 @@ namespace AdventOfCode2021Test
         [Fact]
         public void TestTarget()
         {
-            Day17.CheckMatchTarget(3, 3, (20, 30), (-10, -5)).Item1.Should().Be(false);
-            Day17.CheckMatchTarget(17, -4, (20, 30), (-10, -5)).Item1.Should().Be(false);
-            Day17.CheckMatchTarget(7,2,(20, 30), (-10, -5)).Item1.Should().Be(true);
-            Day17.CheckMatchTarget(6,3,(20, 30), (-10, -5)).Item1.Should().Be(true);
-            Day17.CheckMatchTarget(9,0,(20, 30), (-10, -5)).Item1.Should().Be(true);
+            Day17.TargetOk(3, 3, (20, 30), (-10, -5)).Item1.Should().Be(false);
+            Day17.TargetOk(17, -4, (20, 30), (-10, -5)).Item1.Should().Be(false);
+            Day17.TargetOk(7,2,(20, 30), (-10, -5)).Item1.Should().Be(true);
+            Day17.TargetOk(6,3,(20, 30), (-10, -5)).Item1.Should().Be(true);
+            Day17.TargetOk(9,0,(20, 30), (-10, -5)).Item1.Should().Be(true);
             
-            Day17.CheckMatchTarget(6,9,(20, 30), (-10, -5)).Item1.Should().Be(true);
-            Day17.CheckMatchTarget(6,9,(20, 30), (-10, -5)).maxY.Should().Be(45);
+            Day17.TargetOk(6,9,(20, 30), (-10, -5)).Item1.Should().Be(true);
+            Day17.TargetOk(6,9,(20, 30), (-10, -5)).maxY.Should().Be(45);
             
             
 

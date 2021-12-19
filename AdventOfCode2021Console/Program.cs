@@ -26,6 +26,7 @@ namespace AdventOfCode2021Console
             ExecuteDay(new Day15(), ++day, "Chiton");
             ExecuteDay(new Day16(), ++day, "Packet Decoder");
             ExecuteDay(new Day17(), ++day, "Trick Shot");
+            ExecuteDay(new Day18(), ++day, "TBD");
         }
 
         private static void ExecuteDay<T1, T2>(IDay<T1, T2> day, int dayNumber, string title, string titleProblem1 = "1", string titleProblem2 = "2")

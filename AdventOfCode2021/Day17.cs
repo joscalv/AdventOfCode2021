@@ -41,7 +41,7 @@
             {
                 for (int vy = yLimits.yMin; vy <= maxSpeedY; vy++)
                 {
-                    var checkResult = CheckMatchTarget(vx, vy, xLimits, yLimits);
+                    var checkResult = TargetOk(vx, vy, xLimits, yLimits);
                     if (checkResult.Item1)
                     {
                         numberOfSolutions++;
@@ -56,7 +56,7 @@
         }
 
 
-        public static (bool, int maxY) CheckMatchTarget(int vx, int vy, (int xMin, int xMax) xLimits, (int yMin, int yMax) yLimits)
+        public static (bool, int maxY) TargetOk(int vx, int vy, (int xMin, int xMax) xLimits, (int yMin, int yMax) yLimits)
         {
             bool found;
             bool isViable = true;
