@@ -27,12 +27,14 @@ namespace AdventOfCode2021Console
             ExecuteDay(new Day16(), ++day, "Packet Decoder");
             ExecuteDay(new Day17(), ++day, "Trick Shot");
             ExecuteDay(new Day18(), ++day, "Snailfish");
+            ExecuteDay(new Day19(), ++day, "Beacon Scanner");
+            ExecuteDay(new Day20(), ++day, "Trench Map");
         }
 
         private static void ExecuteDay<T1, T2>(IDay<T1, T2> day, int dayNumber, string title, string titleProblem1 = "1", string titleProblem2 = "2")
         {
-            ExecuteSolution(GetTitle(dayNumber, 1,title ), day.ExecutePart1);
-            ExecuteSolution(GetTitle(dayNumber, 2,title), day.ExecutePart2);
+            ExecuteSolution(GetTitle(dayNumber, 1, title), day.ExecutePart1);
+            ExecuteSolution(GetTitle(dayNumber, 2, title), day.ExecutePart2);
         }
 
         private static void ExecuteSolution<T>(string title, Func<T> solution)
@@ -51,7 +53,7 @@ namespace AdventOfCode2021Console
             Console.WriteLine($"{title?.PadRight(20)}{separator}{result.PadLeft(15)}{separator}{CalculateMilliseconds(clock).PadLeft(10)}{separator}");
         }
 
-        private static string GetTitle(int dayNumber, int problem, string title )
+        private static string GetTitle(int dayNumber, int problem, string title)
         {
             return $"Day {dayNumber.ToString().PadLeft(2)}.{problem.ToString().PadRight(1)} {title.PadRight(25)}";
         }
