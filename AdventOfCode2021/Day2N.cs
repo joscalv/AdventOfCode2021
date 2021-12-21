@@ -7,7 +7,7 @@
         public Day2N()
         {
             _values = File
-                .ReadAllText(Path.Combine("Inputs", "input1N.txt"))
+                .ReadAllText(Path.Combine("Inputs", "input2N.txt"))
                 .Split('\n')
                 .Select(int.Parse)
                 .ToArray();

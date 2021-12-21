@@ -29,6 +29,7 @@ namespace AdventOfCode2021Console
             ExecuteDay(new Day18(), ++day, "Snailfish");
             ExecuteDay(new Day19(), ++day, "Beacon Scanner");
             ExecuteDay(new Day20(), ++day, "Trench Map");
+            ExecuteDay(new Day21(), ++day, "Dirac Dice");
         }
 
         private static void ExecuteDay<T1, T2>(IDay<T1, T2> day, int dayNumber, string title, string titleProblem1 = "1", string titleProblem2 = "2")
