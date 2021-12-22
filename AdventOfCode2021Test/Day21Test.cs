@@ -18,23 +18,24 @@ namespace AdventOfCode2021Test
             day.ExecutePart1().Should().Be(expectedSolution);
 
         }
-        
+
         [Fact]
         public void TestPart1Sample()
         {
             Day21.PlayGame(4, 8).Should().Be(739785);
         }
-        
+
         [Fact]
         public void TestPart2Sample()
         {
             Day21.PlayDiracGame(4, 8).Should().Be(444356092776315);
         }
+
         [Fact]
         public void TestPart2()
         {
             Day21 day = new();
-            var expectedSolution = 0;
+            var expectedSolution = 116741133558209L;
             day.ExecutePart2().Should().Be(expectedSolution);
 
         }
